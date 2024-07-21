@@ -5,4 +5,4 @@ COPY *.txt .
 RUN pip install --no-cache-dir --upgrade pip -r requirements.txt
 COPY . ./
 
-CMD exec python read.py
+CMD exec python write.py
