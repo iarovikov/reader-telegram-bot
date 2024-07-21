@@ -1,6 +1,5 @@
-import os
+import os, logging, requests
 from dotenv import load_dotenv 
-import logging
 from telegram import Update
 from telegram.ext import filters, MessageHandler, ApplicationBuilder, ContextTypes, CommandHandler
 
@@ -18,7 +17,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!")
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
+    requests.post(
+        url="https://readwise.io/api/v3/save/",
+        headers={"Authorization": f"Token {readwise_token}"},
+        json={
+            "url": "https://yourapp.com#document1",
+            "html": f"<p>{update.message.text}</p>",
+        }
+        )
 
 
 if __name__ == '__main__':
